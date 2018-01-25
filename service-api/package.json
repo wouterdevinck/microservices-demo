@@ -1,0 +1,26 @@
+{
+  "name": "demo-api",
+  "version": "0.0.0",
+  "description": "Docker Demo API Service",
+  "scripts": {
+    "start": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Nodemon\" -c \"cyan.bold,green.bold\" \"tsc --watch --project tsconfig.json\" \"nodemon dist/server.js\"",
+    "build": "tsc --project tsconfig.json",
+    "serve": "node dist/server.js",
+    "clean": "rimraf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Wouter Devinck",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1",
+    "nodemon": "^1.14.11",
+    "rimraf": "^2.6.2",
+    "typescript": "^2.6.2"
+  }
+}

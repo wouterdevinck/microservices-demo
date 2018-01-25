@@ -1,0 +1,7 @@
+version: '3'
+services:
+  api:
+    image: wouterdevinck/demo-api
+    build: ./service-api
+    ports: 
+      - "4200:4200"
