@@ -1,7 +1,14 @@
 version: '3'
 services:
   api:
-    image: wouterdevinck/demo-api
-    build: ./service-api
+    image: microservicesdemolyon/task-api
+    build: ./service-task-api
     ports: 
       - "4200:4200"
+  mongo:
+    image: microservicesdemolyon/mongo
+    build: ./service-mongo
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:

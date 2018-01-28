@@ -10,5 +10,6 @@ COPY --from=buildcontainer dist dist
 COPY --from=buildcontainer node_modules node_modules
 COPY package.json .
 RUN apk add --no-cache dumb-init
-CMD [ "dumb-init", "npm", "run", "serve" ]
+ENTRYPOINT [ "dumb-init" ]
+CMD [ "npm", "run", "serve" ]
 EXPOSE 4200
