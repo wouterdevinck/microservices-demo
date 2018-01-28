@@ -1,0 +1,7 @@
+FROM node:9.4.0-alpine 
+VOLUME /src
+RUN apk add --no-cache dumb-init
+WORKDIR /src
+ENTRYPOINT [ "dumb-init" ]
+CMD [ "npm", "start" ]
+EXPOSE 4200

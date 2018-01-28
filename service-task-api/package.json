@@ -15,7 +15,8 @@
   "author": "Wouter Devinck",
   "license": "Apache-2.0",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "mongodb": "^3.0.1"
   },
   "devDependencies": {
     "concurrently": "^3.5.1",

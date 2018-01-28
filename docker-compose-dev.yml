@@ -1,0 +1,20 @@
+version: '3'
+services:
+  api:
+    image: microservicesdemolyon/task-api-dev
+    container_name: task-api
+    build: 
+      context: ./service-task-api
+      dockerfile: Dockerfile-dev
+    volumes:
+        - ./service-task-api:/src
+    ports: 
+      - "4200:4200"
+  mongo:
+    image: microservicesdemolyon/mongo
+    container_name: mongo
+    build: ./service-mongo
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
