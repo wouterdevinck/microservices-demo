@@ -12,8 +12,12 @@ serve: build up
 
 # "make clean" - stop all Dockers and clean up
 .PHONY: clean
-clean: down down-dev
+clean: stop
 	docker system prune -f
+	
+# "make stop" - stop all Dockers
+.PHONY: stop
+stop: down down-dev
 
 # Get an interactive shell in one of the running Docker
 #   make shell <docker-name>

@@ -1,7 +1,8 @@
 FROM node:9.4.0-alpine 
+COPY run-dev.sh .
 VOLUME /src
 RUN apk add --no-cache dumb-init
 WORKDIR /src
 ENTRYPOINT [ "dumb-init" ]
-CMD [ "npm", "start" ]
+CMD [ "./run-dev.sh" ]
 EXPOSE 4200
