@@ -83,6 +83,7 @@ sudo apt-get update
 sudo apt-get install -y google-chrome-stable
 
 # Desktop shortcuts
+mkdir -p /home/$NEWUSERNAME/Desktop/
 cp /usr/share/applications/gnome-terminal.desktop /home/$NEWUSERNAME/Desktop/
 cp /usr/share/applications/code.desktop /home/$NEWUSERNAME/Desktop/
 cp /usr/share/applications/google-chrome.desktop /home/$NEWUSERNAME/Desktop/
