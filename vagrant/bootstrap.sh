@@ -32,7 +32,7 @@ sudo apt-get install -y apt-transport-https ca-certificates curl software-proper
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get update
-sudo apt-get install docker-ce
+sudo apt-get install -y docker-ce
 sudo groupadd docker
 sudo usermod -aG docker $NEWUSERNAME
 sudo systemctl enable docker
@@ -46,7 +46,7 @@ curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microso
 sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
 sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
 sudo apt-get update
-sudo apt-get install code
+sudo apt-get install -y code
 
 # Install relevant Visual Studio Code extensions
 code --install-extension PeterJausovec.vscode-docker
