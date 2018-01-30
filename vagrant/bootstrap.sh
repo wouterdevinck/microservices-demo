@@ -88,10 +88,11 @@ cp /usr/share/applications/gnome-terminal.desktop /home/$NEWUSERNAME/Desktop/
 cp /usr/share/applications/code.desktop /home/$NEWUSERNAME/Desktop/
 cp /usr/share/applications/google-chrome.desktop /home/$NEWUSERNAME/Desktop/
 cp /home/$NEWUSERNAME/.local/share/applications/postman.desktop /home/$NEWUSERNAME/Desktop/
-sudo chmod 750 -R /home/$NEWUSERNAME/Desktop/
+sudo chmod 750 /home/$NEWUSERNAME/Desktop/*.desktop
+sudo chown $NEWUSERNAME /home/$NEWUSERNAME/Desktop /home/$NEWUSERNAME/Desktop/*.desktop
 
-# Install relevant Visual Studio Code extensions
-echo "code --install-extension PeterJausovec.vscode-docker" >> /home/$NEWUSERNAME/.bashrc
+# Install relevant Visual Studio Code extensions on startup
+echo "code --install-extension PeterJausovec.vscode-docker" >> /home/$NEWUSERNAME/.profile
 
 # Uninstall LibreOffice and other bloat to reclaim some disk space
 sudo apt-get remove -y --purge libreoffice*
@@ -101,7 +102,7 @@ sudo apt-get remove -y --purge aisleriot brltty colord deja-dup deja-dup-backend
   gnome-accessibility-themes gnome-contacts gnome-mahjongg gnome-mines gnome-orca gnome-screensaver \
   gnome-sudoku gnome-video-effects gnomine landscape-common libsane libsane-common mcp-account-manager-uoa \
   python3-uno rhythmbox rhythmbox-* sane-utils shotwell shotwell-common telepathy-* thunderbird thunderbird-* \
-  totem totem-* unity-scope-* unity-webapps-common
+  totem totem-* unity-webapps-common
 sudo apt-get clean -y
 sudo apt-get autoremove -y
 
