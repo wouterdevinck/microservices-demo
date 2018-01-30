@@ -26,6 +26,9 @@ app.listen(4200, () => {
       let controller = new TaskController()
       app.get(baseUrl + 'tasks', controller.GetAll)
       app.put(baseUrl + 'tasks', controller.Create)
+      app.get(baseUrl + 'tasks/:id/', controller.Get)
+      app.delete(baseUrl + 'tasks/:id/', controller.Delete)
+      app.post(baseUrl + 'tasks/:id/', controller.Update)
 
     }
   })
