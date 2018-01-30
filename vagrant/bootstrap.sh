@@ -9,7 +9,6 @@ NEWUSERNAME="student"
 adduser --disabled-password --gecos "" $NEWUSERNAME
 sudo passwd -d $NEWUSERNAME
 sudo usermod -aG sudo $NEWUSERNAME
-su - $NEWUSERNAME
 sudo deluser --remove-home ubuntu
 
 # Update package source
@@ -33,7 +32,6 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get update
 sudo apt-get install -y docker-ce
-sudo groupadd docker
 sudo usermod -aG docker $NEWUSERNAME
 sudo systemctl enable docker
 
@@ -49,21 +47,27 @@ sudo apt-get update
 sudo apt-get install -y code
 
 # Install relevant Visual Studio Code extensions
-code --install-extension PeterJausovec.vscode-docker
+# code --user-data-dir=/home/$NEWUSERNAME --install-extension PeterJausovec.vscode-docker
 
 # Install kubectl
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
 
-# Install NodeJS (optional)
+# Install NodeJS
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
+# Install Postman
+wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
+sudo tar -xzf postman.tar.gz -C /opt
+rm postman.tar.gz
+sudo ln -s /opt/Postman/Postman /usr/bin/postman
+
 # Uninstall LibreOffice to reclaim some disk space
-sudo apt-get remove --purge libreoffice*
-sudo apt-get clean
-sudo apt-get autoremove
+sudo apt-get remove -y --purge libreoffice*
+sudo apt-get clean -y
+sudo apt-get autoremove -y
 
 # Reboot
 sudo reboot
