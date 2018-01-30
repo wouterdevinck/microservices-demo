@@ -1,0 +1,23 @@
+require 'getoptlong'
+opts = GetoptLong.new(
+  [ '--boxname', GetoptLong::OPTIONAL_ARGUMENT ],
+  [ '-f', GetoptLong::OPTIONAL_ARGUMENT ]
+)
+boxname=''
+opts.each do |opt, arg|
+  case opt
+    when '--boxname'
+      boxname=arg
+  end
+end
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/xenial64"
+  config.vm.box_version = "20180126.0.0"
+  config.vm.provider "virtualbox" do |v|
+    v.gui = true
+    if !boxname.to_s.empty?
+      v.name = "#{boxname}"
+    end
+  end
+  config.vm.provision :shell, path: "bootstrap.sh"
+end
