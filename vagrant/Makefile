@@ -18,4 +18,4 @@ else
   RM=rm -f
 endif
 
-.PHONY: all clean run
+.PHONY: all clean
