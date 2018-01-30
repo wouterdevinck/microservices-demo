@@ -13,8 +13,11 @@ end
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial64"
   config.vm.box_version = "20180126.0.0"
+  config.vm.hostname = "ubuntu"
   config.vm.provider "virtualbox" do |v|
     v.gui = true
+    v.memory = 4096
+    v.cpus = 2
     if !boxname.to_s.empty?
       v.name = "#{boxname}"
     end
