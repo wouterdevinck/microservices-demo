@@ -82,6 +82,9 @@ echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sud
 sudo apt-get update 
 sudo apt-get install -y google-chrome-stable
 
+# Fix for keyring popup issue
+sudo sed -i 's/google-chrome-stable/google-chrome-stable --password-store=basic/g' /usr/share/applications/google-chrome.desktop
+
 # Desktop shortcuts
 mkdir -p /home/$NEWUSERNAME/Desktop/
 cp /usr/share/applications/gnome-terminal.desktop /home/$NEWUSERNAME/Desktop/
@@ -93,6 +96,9 @@ sudo chown $NEWUSERNAME /home/$NEWUSERNAME/Desktop /home/$NEWUSERNAME/Desktop/*.
 
 # Install relevant Visual Studio Code extensions on startup
 echo "code --install-extension PeterJausovec.vscode-docker" >> /home/$NEWUSERNAME/.profile
+
+# Disable lock screen (because no password to unlock)
+echo "gsettings set org.gnome.desktop.screensaver lock-enabled false" >> /home/$NEWUSERNAME/.profile
 
 # Uninstall LibreOffice and other bloat to reclaim some disk space
 sudo apt-get remove -y --purge libreoffice*
