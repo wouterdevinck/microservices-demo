@@ -1,12 +1,17 @@
 version: '3'
 services:
-  api:
+  task-api:
     image: microservicesdemolyon/task-api
     build: ./service-task-api
     environment:
       - DB_URL=mongodb://mongo/tasks
     ports: 
       - "4200:4200"
+  frontend:
+    image: microservicesdemolyon/frontend
+    build: ./service-frontend
+    ports: 
+      - "4300:4300"
   mongo:
     image: microservicesdemolyon/mongo
     build: ./service-mongo

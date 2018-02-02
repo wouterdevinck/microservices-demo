@@ -1,6 +1,6 @@
 version: '3'
 services:
-  api:
+  task-api:
     image: microservicesdemolyon/task-api-dev
     container_name: task-api
     build: 
@@ -12,6 +12,16 @@ services:
       - DB_URL=mongodb://mongo/tasks
     ports: 
       - "4200:4200"
+  frontend:
+    image: microservicesdemolyon/frontend
+    container_name: frontend
+    build: 
+      context: ./service-frontend
+      dockerfile: Dockerfile-dev
+    volumes:
+        - ./service-frontend:/src
+    ports: 
+      - "4300:4300"
   mongo:
     image: microservicesdemolyon/mongo
     container_name: mongo
