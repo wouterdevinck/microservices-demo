@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Task Frontend",
   "scripts": {
-    "start": "webpack-dev-server --inline --port 4300 --config webpack.config.dev.js",
+    "start": "webpack-dev-server --inline --host 0.0.0.0 --port 4300 --config webpack.config.dev.js",
     "build": "npm run clean && ngc -p tsconfig.json && webpack --progress --profile --bail --config webpack.config.js && npm run clean:tmp",
     "serve": "http-server ./dist -p 4300",
     "clean": "rimraf dist && npm run clean:tmp",

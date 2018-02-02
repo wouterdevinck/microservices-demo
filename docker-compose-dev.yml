@@ -13,7 +13,7 @@ services:
     ports: 
       - "4200:4200"
   frontend:
-    image: microservicesdemolyon/frontend
+    image: microservicesdemolyon/frontend-dev
     container_name: frontend
     build: 
       context: ./service-frontend
