@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Task API Service",
   "scripts": {
-    "start": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Nodemon\" -c \"cyan.bold,green.bold\" \"tsc --watch --project tsconfig.json\" \"nodemon dist/server.js\"",
+    "start": "npm run build && concurrently -k -p \"[{name}]\" -n \"TypeScript,Nodemon\" -c \"cyan.bold,green.bold\" \"tsc --watch --project tsconfig.json\" \"nodemon dist/server.js\"",
     "build": "tsc --project tsconfig.json",
     "serve": "node dist/server.js",
     "clean": "rimraf dist"
