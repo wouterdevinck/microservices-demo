@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './main.ts',
+    entry: './src/main.ts',
     resolve: {
         extensions: [ '.js', '.ts' ]
     },
@@ -51,7 +51,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './index.html'
+            template: './src/index.html'
         }),
         new webpack.ContextReplacementPlugin(
             /angular(\\|\/)core(\\|\/)/,

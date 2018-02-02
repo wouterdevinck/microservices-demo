@@ -17,10 +17,10 @@
     ]
   },
   "angularCompilerOptions": {
-    "genDir": ".",
+    "genDir": "./src",
     "skipMetadataEmit": true
   },
   "include": [
-    "*.ts"
+    "src/*.ts"
   ]
 }

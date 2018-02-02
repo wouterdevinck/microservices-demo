@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './main.ts',
+    entry: './src/main.ts',
     output: {
         path: path.resolve(__dirname, './dist/'),
         publicPath: '/',
@@ -57,7 +57,7 @@ module.exports = {
             }
         }),
         new HtmlWebpackPlugin({
-            template: './index.html'
+            template: './src/index.html'
         }),
         new webpack.ContextReplacementPlugin(
             /angular(\\|\/)core(\\|\/)/,

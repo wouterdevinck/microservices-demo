@@ -7,7 +7,7 @@
     "build": "npm run clean && ngc -p tsconfig.json && webpack --progress --profile --bail --config webpack.config.js && npm run clean:tmp",
     "serve": "http-server ./dist -p 4300",
     "clean": "rimraf dist && npm run clean:tmp",
-    "clean:tmp": "rimraf *.ngsummary.json && rimraf *.ngfactory.js && rimraf *.module.js && rimraf *.component.js && rimraf main.js"
+    "clean:tmp": "rimraf src/*.ngsummary.json && rimraf src/*.js"
   },
   "repository": {
     "type": "git",
