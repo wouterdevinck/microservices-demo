@@ -13,15 +13,25 @@ export class AppComponent implements OnInit {
   private apiUri = "http://localhost:4200/api/v1/tasks";
 
   public tasks: TaskModel[]
+  public newTask: String
 
   constructor(@Inject(HttpClient) private http: HttpClient) {}
 
   ngOnInit() {
-    this.http.get<TaskModel[]>(this.apiUri).subscribe(data => this.tasks = data)
+    this.http.get<TaskModel[]>(this.apiUri).subscribe(tasks => this.tasks = tasks)
   }
 
   eventHandler(event) {
-    console.log(event, event.keyCode, event.keyIdentifier);
+    if (event.charCode == 13) {
+      let task = new TaskModel() 
+      task.done = false
+      task.description = this.newTask
+      this.newTask= ""
+      this.http.put<TaskModel>(this.apiUri, task).subscribe(t => {
+        task._id = t._id
+        this.tasks.push(task)
+      })
+    }
   }
 
 }

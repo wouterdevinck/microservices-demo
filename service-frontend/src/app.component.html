@@ -11,6 +11,6 @@
       </div>
   </li>  
   <li class="list-group-item">
-    <input type="text" class="form-control" id="txtNew" placeholder="Add new task..." (keypress)="eventHandler($event)">
+    <input type="text" class="form-control" placeholder="Add new task..." (keypress)="eventHandler($event)" [(ngModel)]="newTask">
   </li>
 </ul>
