@@ -10,6 +10,7 @@ services:
         - ./service-task-api:/src
     environment:
       - DB_URL=mongodb://mongo/tasks
+      - ENABLE_CORS=true
     ports: 
       - "4200:4200"
   frontend:

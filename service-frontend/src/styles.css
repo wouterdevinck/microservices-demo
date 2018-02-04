@@ -1,0 +1,13 @@
+.icon { 
+  font-size: 72px; 
+  color: darkblue; 
+}
+.container {
+  max-width: 800px;
+}
+.done {
+  text-decoration: line-through;
+}
+.custom-control-label {
+  margin-left: 8px;
+}

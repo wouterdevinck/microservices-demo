@@ -1,0 +1,16 @@
+<div class="py-5 text-center">
+  <i class="material-icons icon">done_all</i>
+  <h2>Task list app</h2>
+</div>
+
+<ul class="list-group">
+  <li class="list-group-item list-group-item-action" *ngFor="let task of tasks">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="chk{{ task._id }}" [checked]="task.done">
+        <label class="custom-control-label" for="chk{{ task._id }}" [ngClass]="{'done': task.done}">{{ task.description }}</label>
+      </div>
+  </li>  
+  <li class="list-group-item">
+    <input type="text" class="form-control" id="txtNew" placeholder="Add new task..." (keypress)="eventHandler($event)">
+  </li>
+</ul>
