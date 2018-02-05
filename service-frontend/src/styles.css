@@ -22,3 +22,6 @@
   color: red;
   cursor: pointer;
 }
+.text-small {
+  font-size: x-small;
+}
