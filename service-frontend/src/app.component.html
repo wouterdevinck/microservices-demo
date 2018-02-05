@@ -6,19 +6,21 @@
   </div>
       
   <ul class="list-group">
-    <li class="list-group-item list-group-item-action" *ngFor="let task of tasks">
+    <li class="list-group-item list-group-item-action" 
+      *ngFor="let task of tasks" (click)="check(task._id)">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" 
-          id="chk{{ task._id }}" [checked]="task.done">
-        <label class="custom-control-label" 
-          for="chk{{ task._id }}" [ngClass]="{'done': task.done}">
+          id="chk{{ task._id }}" [checked]="task.done"
+          (change)="check(task._id, $event)" disabled>
+        <label class="custom-control-label" for="chk{{ task._id }}" 
+          [ngClass]="{'done': task.done}">
           {{ task.description }}
         </label>
         <i class="material-icons delete" (click)="delete(task._id)">delete</i>
       </div>
     </li>  
     <li class="list-group-item">
-      <input type="text" class="form-control" placeholder="Add new task..." 
+      <input type="text" class="form-control" placeholder="Create new task..." 
         (keypress)="keypress($event)" [(ngModel)]="newTask">
     </li>
   </ul>

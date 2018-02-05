@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
 
   keypress(event: KeyboardEvent) {
     if (event.key == "Enter") { 
+      console.log("[INFO] Create new task")
       let task = new TaskModel() 
       task.done = false
       task.description = this.newTask
@@ -35,12 +36,18 @@ export class AppComponent implements OnInit {
   }
 
   delete(id: String) {
-    this.http.delete(this.apiUri + id).subscribe(_ => {
-      let i = this.tasks.findIndex((v, _, __) => {
-        return v._id === id
-      })
-      this.tasks.splice(i, 1)
-    })
+    console.log("[INFO] Delete task " + id)
+    let i = this.tasks.findIndex((v, _, __) => v._id === id)
+    this.tasks.splice(i, 1)
+    this.http.delete(this.apiUri + id).subscribe()
+  }
+
+  check(id: String) {
+    console.log("[INFO] Check/uncheck task " + id)
+    let task = this.tasks.find((v, _, __) => v._id === id)
+    if (!task) return
+    task.done = !task.done
+    this.http.post(this.apiUri + id, task).subscribe()
   }
 
 }
