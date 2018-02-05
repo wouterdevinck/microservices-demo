@@ -1,16 +1,22 @@
 <div class="py-5 text-center">
-  <i class="material-icons icon">done_all</i>
+  <i class="material-icons logo">done_all</i>
   <h2>Task list app</h2>
 </div>
 
 <ul class="list-group">
   <li class="list-group-item list-group-item-action" *ngFor="let task of tasks">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="chk{{ task._id }}" [checked]="task.done">
-        <label class="custom-control-label" for="chk{{ task._id }}" [ngClass]="{'done': task.done}">{{ task.description }}</label>
+        <input type="checkbox" class="custom-control-input" 
+          id="chk{{ task._id }}" [checked]="task.done">
+        <label class="custom-control-label" 
+          for="chk{{ task._id }}" [ngClass]="{'done': task.done}">
+          {{ task.description }}
+        </label>
+        <i class="material-icons delete" (click)="delete(task._id)">delete</i>
       </div>
   </li>  
   <li class="list-group-item">
-    <input type="text" class="form-control" placeholder="Add new task..." (keypress)="eventHandler($event)" [(ngModel)]="newTask">
+    <input type="text" class="form-control" placeholder="Add new task..." 
+      (keypress)="keypress($event)" [(ngModel)]="newTask">
   </li>
 </ul>

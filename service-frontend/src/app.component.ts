@@ -10,7 +10,7 @@ import { TaskModel } from './taskmodel'
 })
 export class AppComponent implements OnInit {
 
-  private apiUri = "http://localhost:4200/api/v1/tasks";
+  private apiUri = "http://localhost:4200/api/v1/tasks/";
 
   public tasks: TaskModel[]
   public newTask: String
@@ -21,8 +21,8 @@ export class AppComponent implements OnInit {
     this.http.get<TaskModel[]>(this.apiUri).subscribe(tasks => this.tasks = tasks)
   }
 
-  eventHandler(event) {
-    if (event.charCode == 13) {
+  keypress(event: KeyboardEvent) {
+    if (event.key == "Enter") { 
       let task = new TaskModel() 
       task.done = false
       task.description = this.newTask
@@ -32,6 +32,15 @@ export class AppComponent implements OnInit {
         this.tasks.push(task)
       })
     }
+  }
+
+  delete(id: String) {
+    this.http.delete(this.apiUri + id).subscribe(_ => {
+      let i = this.tasks.findIndex((v, _, __) => {
+        return v._id === id
+      })
+      this.tasks.splice(i, 1)
+    })
   }
 
 }
