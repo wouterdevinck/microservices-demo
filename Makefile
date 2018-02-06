@@ -1,3 +1,5 @@
+######################### BUILDING & RUNNING #########################
+
 # "make" - build all Docker images
 .PHONY: all
 all: build build-dev
@@ -19,20 +21,6 @@ clean: stop
 .PHONY: stop
 stop: down down-dev
 
-# Get an interactive shell in one of the running Docker
-#   make shell <docker-name>
-#   e.g. "make shell task-api"
-.PHONY: shell
-shell:
-	docker exec -it $(CMDARGS) /bin/sh
-
-# Execute a shell command in one of the running Dockers
-#   make exec <docker-name> <command>
-#   e.g. "make exec task-api npm version"
-.PHONY: exec
-exec:
-	docker exec -t $(CMDARGS)
-
 # Building and running the *final* Docker images using Compose
 #   uses docker-compose.yml
 .PHONY: build up down
@@ -53,6 +41,22 @@ up-dev:
 down-dev:
 	docker-compose -f docker-compose-dev.yml down
 
+######################### DEVELOPMENT HELPERS #########################
+
+# Get an interactive shell in one of the running Docker
+#   make shell <docker-name>
+#   e.g. "make shell task-api"
+.PHONY: shell
+shell:
+	docker exec -it $(CMDARGS) /bin/sh
+
+# Execute a shell command in one of the running Dockers
+#   make exec <docker-name> <command>
+#   e.g. "make exec task-api npm version"
+.PHONY: exec
+exec:
+	docker exec -t $(CMDARGS)
+
 # If the first target is "exec" or "shell", store the remaining list of targets 
 # in CMDARGS and prevent their execution (treat as arguments instead).
 CMD := $(firstword $(MAKECMDGOALS))
@@ -60,3 +64,21 @@ ifeq ($(CMD),$(filter $(CMD),exec shell))
   CMDARGS := $(filter-out exec shell, $(MAKECMDGOALS))
   $(eval $(CMDARGS):;@:)
 endif
+
+######################### KUBERNETES #########################
+
+# "make login" - download token and certificate to talk to Kubernetes 
+#   cluster from bastion and configure kubectl to use these secrets
+.PHONY: login
+login:
+	./k8s/login.sh
+
+# "make deploy" - deploy all services to Kubernetes cluster
+.PHONY: deploy
+deploy:
+	kubectl create -f ./k8s/test.yaml
+
+# "make destroy" - delete all services from Kubernetes cluster
+.PHONY: destroy
+destroy:
+	kubectl delete -f ./k8s/test.yaml
