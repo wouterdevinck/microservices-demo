@@ -6,21 +6,27 @@
     <title>Microservices Demo</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
-      body {
-        margin: 2rem;
-      }
-      h1 {
-        margin-bottom: 2rem;
-      }
+      body { margin: 2rem; }
+      h1 { margin-bottom: 2rem; }
+      h4 { margin-bottom: 1.5rem; margin-top: 2rem; }
     </style>
   </head>
   <body>
     <h1>Microservices Demo</h1>
     <h4>Setup development virtual machine</h4>
     <ol>
-      <li>Install <a href="http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html">VirtualBox</a></li>
-      <li>Download <a href="#">this .ova file</a></li>
-      <li>Open VirtualBox - File &raquo; Import appliance... - Select .ova file - Next - ...</li>
+      <li><strong>Download</strong> <a href="https://drive.google.com/open?id=1SGMkOM16DFN8HcQ4X6Ue3g5flHL010f3">this .ova file</a> <em class="text-muted">(2.5 GB)</em></li>
+      <li><strong>Install</strong> <a href="http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html">VirtualBox</a></li>
+      <li><strong>Import</strong> the virtual machine:
+        <ol>
+          <li>Open VirtualBox</li>
+          <li>File &raquo; Import appliance...</li>
+          <li>Select .ova file &raquo; Next</li>
+          <li>Make sure to tick the box "Reinitialize MAC address"</li>
+          <li>Click "Import"</li>
+        </ol>
+      </li>
+      <li><strong>Run</strong> the machine by double clicking it</li>
     </ol>
     <h4>GitHub repo</h4>
     <ul>
