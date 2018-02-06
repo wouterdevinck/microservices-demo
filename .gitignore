@@ -2,6 +2,7 @@ node_modules
 credentials
 dist
 package-lock.json
+task-app.yaml
 .vagrant
 *.log
 *.ova

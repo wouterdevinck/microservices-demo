@@ -66,19 +66,20 @@ ifeq ($(CMD),$(filter $(CMD),exec shell))
 endif
 
 ######################### KUBERNETES #########################
+# TODO These targets currently use a bash script - write a PowerShell version for Windows
 
 # "make login" - download token and certificate to talk to Kubernetes 
 #   cluster from bastion and configure kubectl to use these secrets
 .PHONY: login
 login:
-	./k8s/login.sh
+	./k8s/kube.sh login
 
 # "make deploy" - deploy all services to Kubernetes cluster
 .PHONY: deploy
 deploy:
-	kubectl create -f ./k8s/task-app.yaml
+	./k8s/kube.sh deploy
 
 # "make destroy" - delete all services from Kubernetes cluster
 .PHONY: destroy
 destroy:
-	kubectl delete -f ./k8s/task-app.yaml
+	./k8s/kube.sh destroy
