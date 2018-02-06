@@ -76,9 +76,9 @@ login:
 # "make deploy" - deploy all services to Kubernetes cluster
 .PHONY: deploy
 deploy:
-	kubectl create -f ./k8s/test.yaml
+	kubectl create -f ./k8s/task-app.yaml
 
 # "make destroy" - delete all services from Kubernetes cluster
 .PHONY: destroy
 destroy:
-	kubectl delete -f ./k8s/test.yaml
+	kubectl delete -f ./k8s/task-app.yaml
