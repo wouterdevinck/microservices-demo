@@ -23,7 +23,7 @@ case $1 in
   echo $PASSWORD > $SCRIPT_DIR/../credentials/password
 
   # 3. Get certificate and token from bastion
-  sshpass -p $PASSWORD scp $USERNAME@bastion.$CLUSTER:$USERNAME.* ./credentials/
+  sshpass -p "$PASSWORD" scp $USERNAME@bastion.$CLUSTER:$USERNAME.* ./credentials/
 
   # 4. Configure kubectl
   kubectl config set-cluster $CLUSTER-$USERNAME --embed-certs=true --server=https://api.$CLUSTER/ --certificate-authority=./credentials/$USERNAME.crt
