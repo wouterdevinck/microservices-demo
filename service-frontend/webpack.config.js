@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/main.ts',
+  entry: './src/main.prod.ts',
   output: {
     path: path.resolve(__dirname, './dist/'),
     publicPath: '/',

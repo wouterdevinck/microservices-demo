@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, Inject} from '@angular/core'
+import { Component, ViewEncapsulation, OnInit, Inject, isDevMode } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { TaskModel } from './taskmodel'
 
@@ -81,7 +81,7 @@ import { TaskModel } from './taskmodel'
 })
 export class AppComponent implements OnInit {
 
-  private apiUri = "http://localhost:4200/api/v1/tasks/";
+  private apiUri = (isDevMode() ? "http://localhost:4200" : "") + "/api/v1/tasks/"
 
   public tasks: TaskModel[]
   public newTask: String
