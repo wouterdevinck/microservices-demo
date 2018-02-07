@@ -136,7 +136,7 @@ make logout
 
 ### Native tools
 
-The [Makefile](Makefile) simply calls a few different tools. You can also use these tools directly. Below are some handy commands that are not covered in the Makefile (see the [file](Makefile) itself for this that _are_ covered).
+The [Makefile](Makefile) simply calls a few different tools. You can also use these tools directly. Below are some handy commands that are not covered in the Makefile (see the [file](Makefile) itself for those that _are_ covered).
 
 #### Docker
 
