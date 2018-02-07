@@ -85,7 +85,7 @@ case $1 in
 
     # Tag image with unique name and push it to Docker Hub
     TAG="$HUBACCOUNT/$IMG-$USERNAME"
-    echo "Pushing image $IMG as $TAG"
+    printf "\nPushing image $IMG as $TAG\n\n"
     docker tag $IMG $TAG
     docker push $TAG
 
