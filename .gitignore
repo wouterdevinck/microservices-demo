@@ -1,8 +1,8 @@
 node_modules
-credentials
 dist
 package-lock.json
 task-app.yaml
+.credentials
 .vagrant
 *.log
 *.ova
