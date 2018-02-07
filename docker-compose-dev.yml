@@ -1,7 +1,7 @@
 version: '3'
 services:
   task-api:
-    image: microservicesdemolyon/task-api-dev
+    image: task-api-dev
     container_name: task-api
     build: 
       context: ./service-task-api
@@ -14,7 +14,7 @@ services:
     ports: 
       - "4200:4200"
   frontend:
-    image: microservicesdemolyon/frontend-dev
+    image: frontend-dev
     container_name: frontend
     build: 
       context: ./service-frontend
@@ -24,7 +24,7 @@ services:
     ports: 
       - "4300:4300"
   mongo:
-    image: microservicesdemolyon/mongo
+    image: mongo
     container_name: mongo
     build: ./service-mongo
     volumes:

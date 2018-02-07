@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: task-api
-          image: microservicesdemolyon/task-api
+          image: ${HUBACCOUNT}/task-api-${USERNAME}
           ports:
             - containerPort: 4200
               protocol: TCP
@@ -38,7 +38,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: microservicesdemolyon/frontend
+          image: ${HUBACCOUNT}/frontend-${USERNAME}
           ports:
             - containerPort: 4300
               protocol: TCP
