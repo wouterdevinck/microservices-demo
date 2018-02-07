@@ -14,6 +14,10 @@
 
 _(if you are curious how this .ova was created, have a look at the [vagrant](vagrant) directory in this repo)_
 
+## Running example
+
+[https://tasks-gr01.k8s.me/](https://tasks-gr01.k8s.me/)
+
 ## Quickstart
 
 ### Step 1: Clone this git repo
@@ -140,7 +144,7 @@ The [Makefile](Makefile) simply calls a few different tools. You can also use th
 
 #### Docker
 
-List all Docker containers
+List all Docker containers:
 ```bash
 docker ps -a
 ```
