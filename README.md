@@ -1,8 +1,6 @@
 
-# Dockerized microservices demo
 
- 1. dd
-		1. dd
+# Dockerized microservices demo
 
 ## Setup development virtual machine
 
@@ -36,6 +34,43 @@ make serve
 ```
 
 This uses Docker Compose to build and run all microservices defined in [docker-compose.yml](docker-compose.yml)
+
+If all went well, you should be able to browse to ```http://localhost:4300``` and try the task list demo app.
+
+To stop the running microservices, press *CRTL+C* to exit Docker Compose, and run:
+
+```bash
+make stop
+```
+
+### Step 3: Sign in to Kubernetes & Docker Hub
+
+```bash
+make login
+```
+You will be prompted for your username and password.
+
+### Step 4: Upload the microservices built in step 2 to Docker Hub
+
+```bash
+make publish
+```
+
+### Step 5: Deploy these microservices to the Kubernetes cluster
+
+```bash
+make deploy
+```
+
+When this is done, it should print the url of your deployed application. Open it in a browser and try the task list demo app, this time running in the cloud.
+
+### Step 6: Cleanup
+
+To remove your deployments from the Kubernetes cluster, run:
+
+```bash
+make destroy
+```
 
 ## Digging deeper
 
