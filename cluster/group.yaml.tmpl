@@ -1,0 +1,35 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: ${GROUP}
+  labels:
+    name: ${GROUP}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ${GROUP}
+  namespace: ${GROUP}
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  namespace: ${GROUP}
+  name: ${GROUP}-admin
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["*"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: ${GROUP}-admin-binding
+  namespace: ${GROUP}
+subjects:
+  - kind: ServiceAccount
+    name: ${GROUP}
+roleRef:
+  kind: Role
+  name: ${GROUP}-admin
+  apiGroup: ""
