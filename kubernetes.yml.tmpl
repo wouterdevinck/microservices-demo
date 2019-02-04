@@ -1,0 +1,132 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: mongo
+  template:
+    metadata:
+      labels:
+        run: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: ${HUBACCOUNT}/mongo-${GROUP}
+          ports:
+            - containerPort: 27017
+              protocol: TCP
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: task-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: task-api
+  template:
+    metadata:
+      labels:
+        run: task-api
+    spec:
+      containers:
+        - name: task-api
+          image: ${HUBACCOUNT}/task-api-${GROUP}
+          ports:
+            - containerPort: 4200
+              protocol: TCP
+          env:
+            - name: DB_URL
+              value: mongodb://mongo:27017
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: frontend
+  template:
+    metadata:
+      labels:
+        run: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ${HUBACCOUNT}/frontend-${GROUP}
+          ports:
+            - containerPort: 4300
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  labels:
+    run: mongo
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+      protocol: TCP
+  selector:
+    run: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: task-api
+  labels:
+    run: task-api
+spec:
+  ports:
+    - port: 80
+      targetPort: 4200
+      protocol: TCP
+  selector:
+    run: task-api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  labels:
+    run: frontend
+spec:
+  ports:
+    - port: 80
+      targetPort: 4300
+      protocol: TCP
+  selector:
+    run: frontend
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: task-app
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+    - hosts:
+        - ${GROUP}.tasklist.nl
+      secretName: tls-secret
+  rules:
+    - host: ${GROUP}.tasklist.nl
+      http:
+        paths:
+          - backend:
+              serviceName: task-api
+              servicePort: 80
+            path: /api
+          - backend:
+              serviceName: frontend
+              servicePort: 80
+            path: /

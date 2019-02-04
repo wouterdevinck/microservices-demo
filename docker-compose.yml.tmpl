@@ -1,7 +1,7 @@
 version: '3'
 services:
   task-api:
-    image: task-api
+    image: ${HUBACCOUNT}/task-api-${GROUP}
     build: ./service-task-api
     environment:
       - DB_URL=mongodb://mongo/tasks
@@ -9,12 +9,12 @@ services:
     ports: 
       - "4200:4200"
   frontend:
-    image: frontend
+    image: ${HUBACCOUNT}/frontend-${GROUP}
     build: ./service-frontend
     ports: 
       - "4300:4300"
   mongo:
-    image: mongo
+    image: ${HUBACCOUNT}/mongo-${GROUP}
     build: ./service-mongo
     volumes:
       - mongo-data:/data/db
