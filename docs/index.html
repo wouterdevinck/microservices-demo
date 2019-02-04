@@ -1,27 +1,229 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Microservices Demo</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <style>
-      body { margin: 2rem; }
-      h1 { margin-bottom: 2rem; }
-      h4 { margin-bottom: 1.5rem; margin-top: 2rem; }
-    </style>
-  </head>
-  <body>
-    <h1>Kubernetes workshop</h1>
-    <h4>Running example</h4>
-    <ul>
-      <li><a href="https://tasks-gr01.k8s.me/">https://group01.tasklist.nl/</a></li>
-    </ul>
-    <h4>GitHub repo &amp; documentation</h4>
-    <ul>
-      <li><a href="https://github.com/wouterdevinck/microservices-demo">https://github.com/wouterdevinck/microservices-demo</a></li>
-    </ul>
-    <h4>Slides</h4>
-    <iframe src="//www.slideshare.net/slideshow/embed_code/key/x5ITLgeGhSRMVs" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Microservices Demo</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    body {
+      margin: 2rem;
+    }
+
+    h1 {
+      margin-bottom: 2rem;
+    }
+
+    h4 {
+      margin-bottom: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .card>pre {
+      margin: 20px;
+    }
+
+    h4>strong {
+      margin-right: 5px;
+      color: grey;
+      font-size: smaller;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Kubernetes workshop</h1>
+  <h4>Useful links</h4>
+  <ul>
+    <li>Github: <a href="https://github.com/wouterdevinck/microservices-demo">https://github.com/wouterdevinck/microservices-demo</a>
+    </li>
+    <li>Running example: <a href="https://group01.tasklist.nl/">https://group01.tasklist.nl/</a></li>
+    <li>Kubernetes dashboard: <a href="https://dashboard.tasklist.nl/">https://dashboard.tasklist.nl/</a></li>
+    <li>Cheat sheets:
+      <ul>
+        <li><code>docker</code>: <a href="https://devhints.io/docker">https://devhints.io/docker</a></li>
+        <li><code>kubectl</code>: <a href="https://kubernetes.io/docs/reference/kubectl/cheatsheet/">https://kubernetes.io/docs/reference/kubectl/cheatsheet/</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+
+  <h4>Slides</h4>
+  <iframe src="//www.slideshare.net/slideshow/embed_code/key/1GpLXe8wjomEkD" width="595" height="485" frameborder="0"
+    marginwidth="0" marginheight="0" scrolling="no"
+    style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+
+
+  <h4><strong>Step 1</strong> SSH into "bastion" virtual machine</h4>
+  <p>
+    A powerful Ubuntu virtual machine called bastion has been made available. This VM is running in the
+    cloud on Microsoft Azure. All tools needed for this lab are pre-installed: docker, docker-compose,
+    kubectl etc. Each group has an account <code>groupXX</code> on this machine, which has been
+    preconfigured with credentials to talk to the Kubernetes cluster.
+  </p>
+  <p>
+    SSH into this machine using the credentials on your card:
+    <div class="card bg-light">
+      <pre><code>ssh groupXX@bastion.tasklist.nl</code></pre>
+    </div>
+  </p>
+  <p class="alert alert-primary">
+    If you are running Windows, you can use <a href="https://www.putty.org/" class="alert-link">putty</a> to connect to
+    bastion.
+  </p>
+  <p>
+    All subsequent steps must be run on bastion.
+  </p>
+
+
+  <h4><strong>Step 2</strong> Clone the git repository</h4>
+  <p>
+    Get the sample code from github:
+    <div class="card bg-light">
+      <pre><code>git clone https://github.com/wouterdevinck/microservices-demo.git
+cd microservices-demo</code></pre>
+    </div>
+  </p>
+
+
+  <h4><strong>Step 3</strong> Build the Docker images</h4>
+  <p>
+    Generate the <code>docker-compose.yml</code> file from a template:
+    <div class="card bg-light">
+      <pre><code>export HUBACCOUNT="demoamsterdam"
+export GROUP=`whoami`
+envsubst &lt; docker-compose.yml.tmpl &gt; docker-compose.yml</code></pre>
+    </div>
+  </p>
+  <p>
+    Have a look at the generated file:
+    <div class="card bg-light">
+      <pre><code>cat docker-compose.yml</code></pre>
+    </div>
+  </p>
+  <p>
+    Have a look at the three Dockerfile's it refers to:
+    <div class="card bg-light">
+      <pre><code>cat service-frontend/Dockerfile
+cat service-task-api/Dockerfile
+cat service-mongo/Dockerfile</code></pre>
+    </div>
+  </p>
+  <p>
+    Build the three Docker images:
+    <div class="card bg-light">
+      <pre><code>docker-compose build</code></pre>
+    </div>
+  </p>
+  <p>
+    Have a look at the list of images:
+    <div class="card bg-light">
+      <pre><code>docker images</code></pre>
+    </div>
+  </p>
+
+
+  <h4><strong>Step 4</strong> Publish the images to Docker hub</h4>
+  <p>
+    Sign in to Docker hub with username <kbd>demoamsterdam</kbd>. The password for
+    this account is the same as the <code>dashboard</code> password listed on your card.
+    <div class="card bg-light">
+      <pre><code>docker login</code></pre>
+    </div>
+  </p>
+  <p>
+    Publish all three Docker images:
+    <div class="card bg-light">
+      <pre><code>docker-compose push</code></pre>
+    </div>
+  </p>
+
+
+  <h4><strong>Step 5</strong> Deploy to the Kubernetes cluster</h4>
+  <p>
+    Generate a <code>kubernetes.yml</code> file from a template:
+  </p>
+  <div class="card bg-light">
+    <pre><code>envsubst &lt; kubernetes.yml.tmpl &gt; kubernetes.yml</code></pre>
+  </div>
+  </p>
+  <p>
+    Have a look at the generated file, it contains three <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">deployments</a>, three
+    <a href="https://kubernetes.io/docs/concepts/services-networking/service/">services</a> and an <a href="https://kubernetes.io/docs/concepts/services-networking/ingress/">ingress</a>:
+  </p>
+  <div class="card bg-light">
+    <pre><code>cat kubernetes.yml</code></pre>
+  </div>
+  <p></p>
+  <p>
+    Have a look at the pre-configured credentials and cluster URL for your account:
+  </p>
+  <div class="card bg-light">
+    <pre><code>cat ~/.kube/config</code></pre>
+  </div>
+  Or:
+  <div class="card bg-light">
+    <pre><code>kubectl config view</code></pre>
+  </div>
+  </p>
+  <p>
+    Note that these credentials give you access to a <code>namespace</code> with the same
+    name as your username <code>groupXX</code>.
+  </p>
+  <p>
+    Deploy all objects defined in <code>kubernetes.yml</code> to the Kubernetes cluster:
+  </p>
+  <div class="card bg-light">
+    <pre><code>kubectl apply -f kubernetes.yml</code></pre>
+  </div>
+  </p>
+  <p>
+    Even though <code>kubectl</code> does not wait for it, the actual deployment <strong>can take a
+      few minutes</strong>. <br /><em>As part of the process, it will even get a new TLS certificate
+      from <a href="https://letsencrypt.org/how-it-works/">Let's Encrypt</a>.</em>
+  </p>
+  <p>
+    While deploying, have a look at the Kubernetes dashboard on <a
+      href="https://dashboard.tasklist.nl/">https://dashboard.tasklist.nl/</a>,
+    using the <code>admin</code> credentials on your card. Make sure to select the <kbd>namespace</kbd> for your group
+    from the <strong>dropdown
+      on the left</strong>.
+  </p>
+  <p>
+    Also have a look at the status of your deployment using <code>kubectl</code>:
+  </p>
+  <div class="card bg-light">
+    <pre><code>kubectl get all</code></pre>
+  </div>
+  </p>
+  <p class="alert alert-primary">
+    Once deployed, your app should become available on <a href="https://group01.tasklist.nl"
+      class="alert-link">https://groupXX.tasklist.nl</a>
+  </p>
+
+
+  <h4>Exercises</h4>
+  <ol>
+    <li><strong>Change the number of instances of the Task API service from 1 to 2</strong><br />
+      Does the application keep working? Why is this?<br /><br /></li>
+    <li><strong>Make a change to one of the services and deploy this change to Kubernetes</strong><br />
+      Any change is okay - if no inspiration: for example change the color of the logo<br /><br /></li>
+    <li><strong>Add an additional microservice</strong> <br />
+      Again, anything is allowed. If no inspiration: add a service capable of exporting the task list to a csv
+      file<br />
+      Exposing a simple REST API (consumed by an "Export" button added to frontend)<br />
+      Consuming the Task API to get the list of tasks<br />
+      Use the technology of your liking in this new service: e.g. NodeJs, .Net Core, Java, Python, ...<br /></li>
+  </ol>
+
+
+  <h4>Further reading</h4>
+  <ul>
+    <li>Cluster setup: <a href="https://github.com/wouterdevinck/microservices-demo/tree/master/cluster">github</a></li>
+  </ul>
+
+</body>
+
 </html>
