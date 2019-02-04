@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubernetes-dashboard
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: admin
+    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - ok"
+spec:
+  tls:
+    - hosts:
+        - dashboard.tasklist.nl
+      secretName: tls-secret
+  rules:
+    - host: dashboard.tasklist.nl
+      http:
+        paths:
+          - backend:
+              serviceName: kubernetes-dashboard
+              servicePort: 80
+            path: /

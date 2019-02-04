@@ -1,6 +1,27 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
+  name: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: mongo
+  template:
+    metadata:
+      labels:
+        run: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: ${HUBACCOUNT}/mongo-${GROUP}
+          ports:
+            - containerPort: 27017
+              protocol: TCP
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
   name: task-api
 spec:
   replicas: 1
@@ -14,13 +35,13 @@ spec:
     spec:
       containers:
         - name: task-api
-          image: ${HUBACCOUNT}/task-api-${USERNAME}
+          image: ${HUBACCOUNT}/task-api-${GROUP}
           ports:
             - containerPort: 4200
               protocol: TCP
           env:
             - name: DB_URL
-              value: mongodb://${USERNAME}:${PASSWORD}@cluster0-shard-00-00-ryvxn.mongodb.net:27017,cluster0-shard-00-01-ryvxn.mongodb.net:27017,cluster0-shard-00-02-ryvxn.mongodb.net:27017/${USERNAME}?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin
+              value: mongodb://mongo:27017
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -38,10 +59,24 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ${HUBACCOUNT}/frontend-${USERNAME}
+          image: ${HUBACCOUNT}/frontend-${GROUP}
           ports:
             - containerPort: 4300
               protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  labels:
+    run: mongo
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+      protocol: TCP
+  selector:
+    run: mongo
 ---
 apiVersion: v1
 kind: Service
@@ -51,9 +86,9 @@ metadata:
     run: task-api
 spec:
   ports:
-  - port: 80
-    targetPort: 4200
-    protocol: TCP
+    - port: 80
+      targetPort: 4200
+      protocol: TCP
   selector:
     run: task-api
 ---
@@ -65,9 +100,9 @@ metadata:
     run: frontend
 spec:
   ports:
-  - port: 80
-    targetPort: 4300
-    protocol: TCP
+    - port: 80
+      targetPort: 4300
+      protocol: TCP
   selector:
     run: frontend
 ---
@@ -75,9 +110,16 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: task-app
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
 spec:
+  tls:
+    - hosts:
+        - ${GROUP}.tasklist.nl
+      secretName: tls-secret
   rules:
-    - host: tasks-${USERNAME}.k8s.me
+    - host: ${GROUP}.tasklist.nl
       http:
         paths:
           - backend:

@@ -1,5 +1,9 @@
 require('zone.js/dist/zone')
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { AppModule } from './app.module';
+import { platformBrowser } from '@angular/platform-browser'
+import { enableProdMode } from '@angular/core'
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+import { AppModuleNgFactory } from './app.module.ngfactory'
+
+enableProdMode()
+
+platformBrowser().bootstrapModuleFactory(AppModuleNgFactory)
